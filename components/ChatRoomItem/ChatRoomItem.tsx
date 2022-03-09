@@ -2,27 +2,35 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import styles from './styles';
 
-type Props = {};
+interface Props {
+  chatRoom: any;
+}
 
-const ChatRoomItem = (props: Props) => {
+const ChatRoomItem: React.FC<Props> = (props) => {
+  const { chatRoom } = props;
+  const user = chatRoom.users[1];
+  const lastMsg = chatRoom.lastMessage;
+
   return (
     <View style={styles.container}>
       <Image
         style={styles.image}
         source={{
-          uri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/elon.png',
+          uri: user.imageUri,
         }}
       />
-      <View style={styles.badgeContainer}>
-        <Text style={styles.badge}>4</Text>
-      </View>
+      {chatRoom.newMessages && (
+        <View style={styles.badgeContainer}>
+          <Text style={styles.badge}>{chatRoom.newMessages}</Text>
+        </View>
+      )}
       <View style={styles.rightContainer}>
         <View style={styles.row}>
-          <Text style={styles.name}>Elon Musk</Text>
-          <Text style={styles.text}>11:11 AM</Text>
+          <Text style={styles.name}>{user.name}</Text>
+          <Text style={styles.text}>{lastMsg.createdAt}</Text>
         </View>
         <Text numberOfLines={1} style={styles.text}>
-          Hola Hola coca cola
+          {lastMsg.content}
         </Text>
       </View>
     </View>
