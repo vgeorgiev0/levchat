@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import ChatRoomItem from '../components/ChatRoomItem/';
+import ChatRoomItem from '../components/ChatRoomItem';
 import ChatRoomData from '../assets/SignalAssets/dummy-data/ChatRooms';
 // TODO Add a horizontal FlatList for stories
 type Props = {};
