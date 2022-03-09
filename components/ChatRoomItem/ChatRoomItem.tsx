@@ -1,6 +1,7 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
 import styles from './styles';
+import { useNavigation } from '@react-navigation/core';
 
 interface Props {
   chatRoom: any;
@@ -11,14 +12,22 @@ const ChatRoomItem: React.FC<Props> = (props) => {
   const user = chatRoom.users[1];
   const lastMsg = chatRoom.lastMessage;
 
+  const navigation = useNavigation();
+  const onPress = () => {
+    navigation.navigate('ChatRoom', {
+      id: chatRoom.id,
+    });
+  };
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image
         style={styles.image}
         source={{
           uri: user.imageUri,
         }}
       />
+
       {chatRoom.newMessages && (
         <View style={styles.badgeContainer}>
           <Text style={styles.badge}>{chatRoom.newMessages}</Text>
@@ -33,7 +42,7 @@ const ChatRoomItem: React.FC<Props> = (props) => {
           {lastMsg.content}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
