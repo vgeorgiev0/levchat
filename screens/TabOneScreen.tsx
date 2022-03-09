@@ -1,12 +1,8 @@
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import ChatRoomItem from '../components/ChatRoomItem/';
-
 import ChatRoomData from '../assets/SignalAssets/dummy-data/ChatRooms';
-
-const chatRoom1 = ChatRoomData[0];
-const chatRoom2 = ChatRoomData[2];
-
+// TODO Add a horizontal FlatList for stories
 type Props = {};
 
 const TabOneScreen = (props: Props) => {
@@ -14,7 +10,7 @@ const TabOneScreen = (props: Props) => {
     <View style={styles.page}>
       <FlatList
         data={ChatRoomData}
-        renderItem={({ item }) => <ChatRoomItem chatRoom={item} />}
+        renderItem={(props) => <ChatRoomItem chatRoom={props.item} />}
         showsVerticalScrollIndicator={false}
       />
     </View>
