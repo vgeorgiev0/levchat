@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import React from 'react';
+import styles from './styles';
 
 const myID = 'u1';
 
@@ -19,22 +20,3 @@ const Message = ({ message }: any) => {
 };
 
 export default Message;
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-    margin: 10,
-    borderRadius: 10,
-    maxWidth: '75%',
-  },
-  containerLeft: {
-    backgroundColor: '#3777f0',
-    marginLeft: 10,
-    marginRight: 'auto',
-  },
-  containerRight: {
-    backgroundColor: 'lightgrey',
-    marginLeft: 'auto',
-    marginRight: 10,
-  },
-});
