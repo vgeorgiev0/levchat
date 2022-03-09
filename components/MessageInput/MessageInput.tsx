@@ -1,17 +1,47 @@
-import { TouchableOpacity, Text, TextInput, View } from 'react-native';
+import {
+  TouchableOpacity,
+  TextInput,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import React from 'react';
 import {
   MaterialCommunityIcons,
   FontAwesome5,
   Feather,
+  MaterialIcons,
 } from '@expo/vector-icons';
 import styles from './styles';
+import { useState } from 'react';
 
 type Props = {};
 
 const MessageInput = (props: Props) => {
+  const [message, setMessage] = useState('');
+
+  const sendMessage = () => {
+    console.log(`Sending: ${message}`);
+    setMessage('');
+  };
+  const onPlusClicked = () => {
+    console.log('Plus clicked');
+  };
+
+  const onPress = () => {
+    if (message) {
+      sendMessage();
+    } else {
+      onPlusClicked();
+    }
+  };
+
   return (
-    <View style={styles.root}>
+    <KeyboardAvoidingView
+      style={styles.root}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={100}
+    >
       <View style={styles.inputContainer}>
         <TouchableOpacity>
           <FontAwesome5
@@ -21,7 +51,12 @@ const MessageInput = (props: Props) => {
             style={styles.icon}
           />
         </TouchableOpacity>
-        <TextInput style={styles.input} placeholder='Send a message...' />
+        <TextInput
+          value={message}
+          style={styles.input}
+          placeholder='Send a message...'
+          onChangeText={setMessage}
+        />
         <TouchableOpacity>
           <Feather
             name='camera'
@@ -39,16 +74,16 @@ const MessageInput = (props: Props) => {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.buttonContainer}>
-        <Text style={styles.buttonText}>
-          <MaterialCommunityIcons
-            name='send-circle-outline'
-            size={35}
-            color='#fff'
-          />
-        </Text>
-      </View>
-    </View>
+      <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
+        <View>
+          {message ? (
+            <MaterialIcons name='send' size={18} color='white' />
+          ) : (
+            <Feather name='plus' size={20} color='white' />
+          )}
+        </View>
+      </TouchableOpacity>
+    </KeyboardAvoidingView>
   );
 };
 

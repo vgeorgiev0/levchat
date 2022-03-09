@@ -1,5 +1,6 @@
 import { FlatList, StyleSheet, SafeAreaView } from 'react-native';
 import React from 'react';
+import { useRoute, useNavigation } from '@react-navigation/core';
 import Message from '../components/Message';
 import ChatRoomData from '../assets/SignalAssets/dummy-data/Chats';
 import MessageInput from '../components/MessageInput';
@@ -7,6 +8,12 @@ import MessageInput from '../components/MessageInput';
 type Props = {};
 
 const ChatRoomScreen = (props: Props) => {
+  const route = useRoute();
+  const navigation = useNavigation();
+  // @ts-ignore
+  console.warn(route.params?.id);
+  navigation.setOptions({ title: 'Elon Musk' });
+
   return (
     <SafeAreaView style={styles.page}>
       <FlatList
