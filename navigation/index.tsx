@@ -52,6 +52,7 @@ function RootNavigator() {
         name='ChatRoom'
         component={ChatRoomScreen}
         options={({ route }) => ({
+          // @ts-ignore
           title: route.params.name,
           headerTitle: ChatTitle,
         })}

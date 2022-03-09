@@ -11,7 +11,7 @@ const ChatRoomScreen = (props: Props) => {
   const route = useRoute();
   const navigation = useNavigation();
   // @ts-ignore
-  console.warn(route.params?.id);
+  // console.warn(route.params?.id);
   navigation.setOptions({ title: 'Elon Musk' });
 
   return (
