@@ -49,8 +49,8 @@ function RootNavigator() {
         component={ChatRoomScreen}
         options={({ route }) => ({
           // @ts-ignore
-          title: route.params.name,
           headerTitle: ChatTitle,
+          // headerTitle: ChatTitle,
         })}
         // headerBackVisible: false,
         // headerBackTitleVisible: false,

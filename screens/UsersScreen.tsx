@@ -1,14 +1,11 @@
-import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+
+import { View, StyleSheet, FlatList } from 'react-native';
 import { DataStore } from '@aws-amplify/datastore';
-import ChatRoomData from '../assets/SignalAssets/dummy-data/Users';
 import UserItem from '../components/UserItem';
 import { User } from '../src/models';
-import { useState, useEffect } from 'react';
 
-type Props = {};
-
-const UsersScreen = (props: Props) => {
+export default function UsersScreen() {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
@@ -28,14 +25,12 @@ const UsersScreen = (props: Props) => {
     <View style={styles.page}>
       <FlatList
         data={users}
-        renderItem={(props) => <UserItem user={props.item} />}
+        renderItem={({ item }) => <UserItem user={item} />}
         showsVerticalScrollIndicator={false}
       />
     </View>
   );
-};
-
-export default UsersScreen;
+}
 
 const styles = StyleSheet.create({
   page: { backgroundColor: 'white', flex: 1 },

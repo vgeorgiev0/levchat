@@ -11,7 +11,7 @@ const ChatRoomScreen = (props: Props) => {
   const route = useRoute();
   const navigation = useNavigation();
   // @ts-ignore
-  console.log(route.params.id);
+  // console.log(route.params.id);
   navigation.setOptions({
     // @ts-ignore
     title: route.params.id,

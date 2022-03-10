@@ -27,7 +27,7 @@ const ChatTitle = (props: any) => {
         style={{ marginLeft: -30, width: 30, height: 30, borderRadius: 50 }}
       />
       <Text style={{ flex: 1, fontWeight: 'bold', marginLeft: 10 }}>
-        {props.children}
+        Chat Room
       </Text>
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity style={{ marginHorizontal: 5 }}>
