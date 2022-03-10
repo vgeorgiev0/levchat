@@ -1,4 +1,6 @@
 import { Feather } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Auth } from 'aws-amplify';
 import {
   View,
   Image,
@@ -8,6 +10,10 @@ import {
 } from 'react-native';
 
 const HomeTitle = (props: any) => {
+  const logOut = () => {
+    Auth.signOut();
+  };
+
   const { width } = useWindowDimensions();
   return (
     <View
@@ -31,8 +37,12 @@ const HomeTitle = (props: any) => {
         <TouchableOpacity style={{ marginHorizontal: 5 }}>
           <Feather name='camera' size={24} color='black' />
         </TouchableOpacity>
-        <TouchableOpacity style={{ marginHorizontal: 5 }}>
-          <Feather name='edit-2' size={24} color='black' />
+        <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={logOut}>
+          <MaterialCommunityIcons
+            name='dots-vertical'
+            size={24}
+            color='black'
+          />
         </TouchableOpacity>
       </View>
     </View>

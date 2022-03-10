@@ -9,11 +9,18 @@
       "UnauthRoleName": "amplify-levchat-staging-80514-unauthRole",
       "StackName": "amplify-levchat-staging-80514",
       "StackId": "arn:aws:cloudformation:eu-west-3:261751388295:stack/amplify-levchat-staging-80514/d1702580-a048-11ec-9eff-0e8e0637460e",
-      "AmplifyAppId": "d133s6kybw4cdo"
+      "AmplifyAppId": "d133s6kybw4cdo",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-levchat-staging-80514-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     },
     "categories": {
       "auth": {
         "LevChat": {}
+      },
+      "function": {
+        "LevChatPostConfirmation": {
+          "deploymentBucketName": "amplify-levchat-staging-80514-deployment",
+          "s3Key": "amplify-builds/LevChatPostConfirmation-585a752f355044427263-build.zip"
+        }
       }
     }
   }
