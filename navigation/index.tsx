@@ -16,6 +16,8 @@ import HomeScreen from '../screens/HomeScreen';
 import { RootStackParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import ChatRoomScreen from '../screens/ChatRoomScreen';
+import UsersScreen from '../screens/UsersScreen';
+import UsersTitle from '../components/Titles/UsersTitle';
 
 export default function Navigation({
   colorScheme,
@@ -52,6 +54,11 @@ function RootNavigator() {
         })}
         // headerBackVisible: false,
         // headerBackTitleVisible: false,
+      />
+      <Stack.Screen
+        name='UsersScreen'
+        component={UsersScreen}
+        options={{ headerTitle: UsersTitle }}
       />
 
       <Stack.Screen

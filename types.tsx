@@ -9,6 +9,7 @@ import {
   NavigatorScreenParams,
 } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import UsersScreen from './screens/UsersScreen';
 
 declare global {
   namespace ReactNavigation {
@@ -22,6 +23,7 @@ export type RootStackParamList = {
   NotFound: undefined;
   ChatRoom: any;
   HomeScreen: undefined;
+  UsersScreen: any;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
