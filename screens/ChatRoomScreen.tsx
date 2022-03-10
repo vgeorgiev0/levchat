@@ -11,9 +11,11 @@ const ChatRoomScreen = (props: Props) => {
   const route = useRoute();
   const navigation = useNavigation();
   // @ts-ignore
-  // console.warn(route.params?.id);
-  navigation.setOptions({ title: 'Elon Musk' });
-
+  console.log(route.params.id);
+  navigation.setOptions({
+    // @ts-ignore
+    title: route.params.id,
+  });
   return (
     <SafeAreaView style={styles.page}>
       <FlatList

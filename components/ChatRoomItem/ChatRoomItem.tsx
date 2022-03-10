@@ -11,8 +11,8 @@ const ChatRoomItem: React.FC<Props> = (props) => {
   const { chatRoom } = props;
   const user = chatRoom.users[1];
   const lastMsg = chatRoom.lastMessage;
-
   const navigation = useNavigation();
+
   const onPress = () => {
     navigation.navigate('ChatRoom', {
       id: chatRoom.id,

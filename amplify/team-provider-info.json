@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-levchat-staging-80514-authRole",
+      "UnauthRoleArn": "arn:aws:iam::261751388295:role/amplify-levchat-staging-80514-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::261751388295:role/amplify-levchat-staging-80514-authRole",
+      "Region": "eu-west-3",
+      "DeploymentBucketName": "amplify-levchat-staging-80514-deployment",
+      "UnauthRoleName": "amplify-levchat-staging-80514-unauthRole",
+      "StackName": "amplify-levchat-staging-80514",
+      "StackId": "arn:aws:cloudformation:eu-west-3:261751388295:stack/amplify-levchat-staging-80514/d1702580-a048-11ec-9eff-0e8e0637460e",
+      "AmplifyAppId": "d133s6kybw4cdo"
+    },
+    "categories": {
+      "auth": {
+        "LevChat": {}
+      }
+    }
+  }
+}
