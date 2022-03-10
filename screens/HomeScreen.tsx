@@ -12,7 +12,7 @@ type Props = {};
 //   Auth.signOut();
 // };
 
-const TabOneScreen = (props: Props) => {
+const HomeScreen = (props: Props) => {
   return (
     <View style={styles.page}>
       <FlatList
@@ -24,7 +24,7 @@ const TabOneScreen = (props: Props) => {
   );
 };
 
-export default TabOneScreen;
+export default HomeScreen;
 
 const styles = StyleSheet.create({
   page: { backgroundColor: 'white', flex: 1 },
