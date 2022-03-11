@@ -1,10 +1,8 @@
-import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
-import { DataStore } from '@aws-amplify/datastore';
-import ChatRoomData from '../assets/SignalAssets/dummy-data/Users';
-import UserItem from '../components/UserItem';
-import { User } from '../src/models';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { FlatList, StyleSheet, View } from "react-native";
+import { DataStore } from "@aws-amplify/datastore";
+import UserItem from "../components/UserItem";
+import { User } from "../src/models";
 
 type Props = {};
 
@@ -20,6 +18,7 @@ const UsersScreen = (props: Props) => {
   //   const fetchUsers = async () => {
   //     const fetchedUsers = await DataStore.query(User);
   //     setUsers(fetchedUsers);
+  //     console.log(users);
   //   };
   //   fetchUsers();
   // }, []);
@@ -38,5 +37,5 @@ const UsersScreen = (props: Props) => {
 export default UsersScreen;
 
 const styles = StyleSheet.create({
-  page: { backgroundColor: 'white', flex: 1 },
+  page: { backgroundColor: "white", flex: 1 },
 });
