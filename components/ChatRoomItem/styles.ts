@@ -5,12 +5,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 10,
   },
-  rightContainer: {
-    flex: 1,
-    justifyContent: 'center',
+  image: {
+    height: 50,
+    width: 50,
+    borderRadius: 30,
+    marginRight: 10,
   },
   badgeContainer: {
-    backgroundColor: '#3872e9',
+    backgroundColor: '#3777f0',
     width: 20,
     height: 20,
     borderRadius: 10,
@@ -22,12 +24,13 @@ const styles = StyleSheet.create({
     left: 45,
     top: 10,
   },
-  badge: { color: 'white', fontSize: 12 },
-  image: {
-    height: 50,
-    width: 50,
-    borderRadius: 50,
-    marginRight: 10,
+  badgeText: {
+    color: 'white',
+    fontSize: 12,
+  },
+  rightContainer: {
+    flex: 1,
+    justifyContent: 'center',
   },
   row: {
     flexDirection: 'row',
@@ -42,4 +45,5 @@ const styles = StyleSheet.create({
     color: 'grey',
   },
 });
+
 export default styles;

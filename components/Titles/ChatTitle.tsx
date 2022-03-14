@@ -27,14 +27,14 @@ const ChatTitle = (props: any) => {
         style={{ marginLeft: -30, width: 30, height: 30, borderRadius: 50 }}
       />
       <Text style={{ flex: 1, fontWeight: 'bold', marginLeft: 10 }}>
-        {props.children}
+        Chat Room
       </Text>
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity style={{ marginHorizontal: 5 }}>
-          <Feather name='camera' size={24} color='black' />
+          <Feather name="camera" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity style={{ marginHorizontal: 5 }}>
-          <Feather name='edit-2' size={24} color='black' />
+          <Feather name="edit-2" size={24} color="black" />
         </TouchableOpacity>
       </View>
     </View>

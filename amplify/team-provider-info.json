@@ -19,7 +19,7 @@
       "function": {
         "LevChatPostConfirmation": {
           "deploymentBucketName": "amplify-levchat-staging-80514-deployment",
-          "s3Key": "amplify-builds/LevChatPostConfirmation-585a752f355044427263-build.zip"
+          "s3Key": "amplify-builds/LevChatPostConfirmation-455a705365787968444a-build.zip"
         }
       }
     }
