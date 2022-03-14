@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
-import { DataStore } from "@aws-amplify/datastore";
-import { User } from "../../src/models";
-import styles from "./styles";
-import { Auth } from "aws-amplify";
+import React, { useState, useEffect } from 'react';
+import { ActivityIndicator, Text, View } from 'react-native';
+import { DataStore } from '@aws-amplify/datastore';
+import { User } from '../../src/models';
+import styles from './styles';
+import { Auth } from 'aws-amplify';
 
-const myID = "u1";
+const myID = 'u1';
 
-const Message = ({ message }: any) => {
+// @ts-ignore
+const Message = ({ message }) => {
   const [user, setUser] = useState<User | undefined>();
   const [isMe, setIsMe] = useState<boolean>(false);
 
@@ -16,22 +17,19 @@ const Message = ({ message }: any) => {
   }, []);
 
   useEffect(() => {
-    const checkIsMe = async () => {
+    const checkIfMe = async () => {
       if (!user) {
         return;
       }
-
       const authUser = await Auth.currentAuthenticatedUser();
-      setIsMe(user?.id === authUser.attributes.sub);
+      setIsMe(user.id === authUser.attributes.sub);
     };
-    checkIsMe();
+    checkIfMe();
   }, [user]);
 
   if (!user) {
     return <ActivityIndicator />;
   }
-
-  // const isMe = message.user.id === myID;
 
   return (
     <View
@@ -40,9 +38,8 @@ const Message = ({ message }: any) => {
         isMe ? styles.containerRight : styles.containerLeft,
       ]}
     >
-      <Text style={{ color: isMe ? "black" : "#fff" }}>{message.content}</Text>
+      <Text style={{ color: isMe ? 'black' : 'white' }}>{message.content}</Text>
     </View>
   );
 };
-
 export default Message;

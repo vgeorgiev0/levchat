@@ -108,13 +108,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "lastMessage": {
-                    "name": "lastMessage",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "LastMessage": {
                     "name": "LastMessage",
                     "isArray": false,
@@ -372,5 +365,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "98be212c8215e75f2a428f4ef8019ca6"
+    "version": "2cc477d645c013dd316343f0df268647"
 };
