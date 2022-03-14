@@ -19,7 +19,7 @@ const ChatTitle = ({ id, children }: { id: string; children: any }) => {
 
     const fetchUsers = async () => {
       const fetchedUsers = (await DataStore.query(ChatRoomUser))
-        .filter((chatRoomUser) => chatRoomUser.id !== id)
+        .filter((chatRoomUser) => chatRoomUser.chatRoom.id === id)
         .map((chatRoomUser) => chatRoomUser.user);
 
       // setUsers(fetchedUsers);
@@ -32,6 +32,8 @@ const ChatTitle = ({ id, children }: { id: string; children: any }) => {
     fetchUsers();
   }, []);
   const { width } = useWindowDimensions();
+  console.log(user);
+
   return (
     <View
       style={{
