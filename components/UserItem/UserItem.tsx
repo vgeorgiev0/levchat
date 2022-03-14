@@ -1,11 +1,11 @@
-import React from "react";
-import { Image, Text, View, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/core";
-import styles from "./styles";
-import { Auth } from "aws-amplify";
-import { DataStore } from "aws-amplify/";
-import { ChatRoom, ChatRoomUser } from "../../src/models";
-import { User } from "../../src/models";
+import React from 'react';
+import { Image, Text, View, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
+import styles from './styles';
+import { Auth } from 'aws-amplify';
+import { DataStore } from 'aws-amplify/';
+import { ChatRoom, ChatRoomUser } from '../../src/models';
+import { User } from '../../src/models';
 
 interface Props {
   user: any;
@@ -25,17 +25,18 @@ const ChatRoomItem: React.FC<Props> = ({ user }) => {
 
     await DataStore.save(
       new ChatRoomUser({
+        // @ts-ignore
         user: dbUser,
         chatRoom: newChatRoom,
       })
     );
     await DataStore.save(
       new ChatRoomUser({
-        user: user,
+        user,
         chatRoom: newChatRoom,
       })
     );
-    navigation.navigate("ChatRoom", { id: newChatRoom.id });
+    navigation.navigate('ChatRoom', { id: newChatRoom.id });
   };
 
   return (

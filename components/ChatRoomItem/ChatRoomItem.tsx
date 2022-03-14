@@ -1,34 +1,26 @@
-import {
-  Image,
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
-import React, { useState, useEffect } from "react";
-import styles from "./styles";
-import { DataStore } from "@aws-amplify/datastore";
-import { ChatRoomUser, User } from "../../src/models";
-import { useNavigation } from "@react-navigation/core";
-import { Auth } from "aws-amplify";
+import React, { useState, useEffect } from 'react';
+import { Text, Image, View, Pressable, ActivityIndicator } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
+import { DataStore } from '@aws-amplify/datastore';
+import { ChatRoomUser, User } from '../../src/models';
+import styles from './styles';
+import Auth from '@aws-amplify/auth';
 
-interface Props {
-  chatRoom: any;
-}
+// @ts-ignore
+export default function ChatRoomItem({ chatRoom }) {
+  // const [users, setUsers] = useState<User[]>([]); // all users in this chatroom
+  const [user, setUser] = useState<User | null>(null); // the display user
 
-const ChatRoomItem: React.FC<Props> = (props) => {
-  // const [users, setUsers] = useState<User[]>([]); // All users in this chatroom
-  const [user, setUser] = useState<User | null>(null); // The displayed user
-  const { chatRoom } = props;
-  const lastMsg = chatRoom.lastMessage;
   const navigation = useNavigation();
-
+  console.log(chatRoom);
   useEffect(() => {
     const fetchUsers = async () => {
-      const fetchedUsers = await (await DataStore.query(ChatRoomUser))
+      const fetchedUsers = (await DataStore.query(ChatRoomUser))
         .filter((chatRoomUser) => chatRoomUser.chatRoom.id === chatRoom.id)
         .map((chatRoomUser) => chatRoomUser.user);
+
       // setUsers(fetchedUsers);
+
       const authUser = await Auth.currentAuthenticatedUser();
       setUser(
         fetchedUsers.find((user) => user.id !== authUser.attributes.sub) || null
@@ -38,9 +30,7 @@ const ChatRoomItem: React.FC<Props> = (props) => {
   }, []);
 
   const onPress = () => {
-    navigation.navigate("ChatRoom", {
-      id: chatRoom.id,
-    });
+    navigation.navigate('ChatRoom', { id: chatRoom.id });
   };
 
   if (!user) {
@@ -48,30 +38,24 @@ const ChatRoomItem: React.FC<Props> = (props) => {
   }
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
-      <Image
-        style={styles.image}
-        source={{
-          uri: user.imageUri,
-        }}
-      />
+    <Pressable onPress={onPress} style={styles.container}>
+      <Image source={{ uri: user.imageUri }} style={styles.image} />
 
       {!!chatRoom.newMessages && (
         <View style={styles.badgeContainer}>
-          <Text style={styles.badge}>{chatRoom.newMessages}</Text>
+          <Text style={styles.badgeText}>{chatRoom.newMessages}</Text>
         </View>
       )}
+
       <View style={styles.rightContainer}>
         <View style={styles.row}>
           <Text style={styles.name}>{user.name}</Text>
-          <Text style={styles.text}>{lastMsg?.createdAt}</Text>
+          <Text style={styles.text}>{chatRoom.lastMessage?.createdAt}</Text>
         </View>
         <Text numberOfLines={1} style={styles.text}>
-          {lastMsg?.content}
+          {chatRoom.lastMessage?.content}
         </Text>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
-};
-
-export default ChatRoomItem;
+}
