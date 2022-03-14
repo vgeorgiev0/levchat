@@ -13,7 +13,6 @@ export default function ChatRoomItem({ chatRoom }) {
   const [lastMessage, setLastMessage] = useState<Message | undefined>();
 
   const navigation = useNavigation();
-  console.log(chatRoom);
 
   useEffect(() => {
     const fetchUsers = async () => {

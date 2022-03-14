@@ -31,7 +31,7 @@ export default function ChatRoomScreen() {
 
   useEffect(() => {
     const subscription = DataStore.observe(MessageModel).subscribe((msg) => {
-      console.log(msg.model, msg.opType, msg.element);
+      // console.log(msg.model, msg.opType, msg.element);
       if (msg.model === MessageModel && msg.opType === 'INSERT') {
         setMessages((existingMessage) => [msg.element, ...existingMessage]);
       }
@@ -70,8 +70,6 @@ export default function ChatRoomScreen() {
     // console.log(fetchedMessages);
     setMessages(fetchedMessages);
   };
-
-  navigation.setOptions({ title: 'Elon Musk' });
 
   if (!chatRoom) {
     return <ActivityIndicator />;
