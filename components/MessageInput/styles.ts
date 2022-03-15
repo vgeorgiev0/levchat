@@ -18,6 +18,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 5,
   },
+  sentImageContainer: {
+    flexDirection: 'row',
+    marginVertical: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'space-between',
+    borderWidth: 1,
+    borderColor: 'lightgrey',
+    borderRadius: 10,
+  },
   input: {
     flex: 1,
     marginHorizontal: 5,
