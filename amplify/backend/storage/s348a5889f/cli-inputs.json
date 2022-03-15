@@ -1,0 +1,13 @@
+{
+  "resourceName": "s348a5889f",
+  "policyUUID": "48a5889f",
+  "bucketName": "levchatcc5bf9fabffa4f118e2395f249ae9dd0",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

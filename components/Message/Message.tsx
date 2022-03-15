@@ -1,37 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
-import { DataStore } from "@aws-amplify/datastore";
-import { User } from "../../src/models";
-import styles from "./styles";
-import { Auth } from "aws-amplify";
+import React, { useState, useEffect } from 'react';
+import {
+  ActivityIndicator,
+  Text,
+  useWindowDimensions,
+  View,
+} from 'react-native';
+import { DataStore } from '@aws-amplify/datastore';
+import { User } from '../../src/models';
+import styles from './styles';
+import { Auth } from 'aws-amplify';
+// @ts-ignore
+import { S3Image } from 'aws-amplify-react-native';
 
-const myID = "u1";
-
-const Message = ({ message }: any) => {
+// @ts-ignore
+const Message = ({ message }) => {
   const [user, setUser] = useState<User | undefined>();
   const [isMe, setIsMe] = useState<boolean>(false);
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     DataStore.query(User, message.userID).then(setUser);
   }, []);
 
   useEffect(() => {
-    const checkIsMe = async () => {
+    const checkIfMe = async () => {
       if (!user) {
         return;
       }
-
       const authUser = await Auth.currentAuthenticatedUser();
-      setIsMe(user?.id === authUser.attributes.sub);
+      setIsMe(user.id === authUser.attributes.sub);
     };
-    checkIsMe();
+    checkIfMe();
   }, [user]);
 
   if (!user) {
     return <ActivityIndicator />;
   }
-
-  // const isMe = message.user.id === myID;
 
   return (
     <View
@@ -40,9 +44,21 @@ const Message = ({ message }: any) => {
         isMe ? styles.containerRight : styles.containerLeft,
       ]}
     >
-      <Text style={{ color: isMe ? "black" : "#fff" }}>{message.content}</Text>
+      {message.image && (
+        <View style={{ marginBottom: message.content ? 10 : 0 }}>
+          <S3Image
+            imgKey={message.image}
+            style={{ width: width * 0.7, aspectRatio: 4 / 3 }}
+            resizeMode="contain"
+          />
+        </View>
+      )}
+      {!!message.content && (
+        <Text style={{ color: isMe ? 'black' : 'white' }}>
+          {message.content}
+        </Text>
+      )}
     </View>
   );
 };
-
 export default Message;

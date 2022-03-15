@@ -2,8 +2,10 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   root: {
-    flexDirection: 'row',
     padding: 10,
+  },
+  row: {
+    flexDirection: 'row',
   },
   inputContainer: {
     backgroundColor: '#f2f2f2',
@@ -16,18 +18,43 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 5,
   },
+  sentImageContainer: {
+    flexDirection: 'row',
+    marginVertical: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'space-between',
+    borderWidth: 1,
+    borderColor: 'lightgrey',
+    borderRadius: 10,
+  },
+  progressContainer: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignSelf: 'flex-end',
+  },
+  progress: {
+    height: 5,
+    borderRadius: 5,
+    backgroundColor: '#3777f0',
+  },
   input: {
     flex: 1,
     marginHorizontal: 5,
   },
-  icon: { marginHorizontal: 5 },
+  icon: {
+    marginHorizontal: 5,
+  },
   buttonContainer: {
-    width: 45,
-    height: 45,
+    width: 40,
+    height: 40,
     backgroundColor: '#3777f0',
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 35,
   },
 });
 

@@ -14,7 +14,7 @@ export const schema = {
                     "name": "content",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "userID": {
@@ -29,6 +29,20 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "image": {
+                    "name": "image",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "audio": {
+                    "name": "audio",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "createdAt": {
@@ -105,13 +119,6 @@ export const schema = {
                     "name": "newMessages",
                     "isArray": false,
                     "type": "Int",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "lastMessage": {
-                    "name": "lastMessage",
-                    "isArray": false,
-                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -372,5 +379,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "98be212c8215e75f2a428f4ef8019ca6"
+    "version": "ef0883ce810a569708775e8c94595bc8"
 };
