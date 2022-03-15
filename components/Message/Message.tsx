@@ -45,13 +45,19 @@ const Message = ({ message }) => {
       ]}
     >
       {message.image && (
-        <S3Image
-          imgKey={message.image}
-          style={{ width: width * 0.7, aspectRatio: 4 / 3, marginBottom: 10 }}
-          resizeMode="contain"
-        />
+        <View style={{ marginBottom: message.content ? 10 : 0 }}>
+          <S3Image
+            imgKey={message.image}
+            style={{ width: width * 0.7, aspectRatio: 4 / 3 }}
+            resizeMode="contain"
+          />
+        </View>
       )}
-      <Text style={{ color: isMe ? 'black' : 'white' }}>{message.content}</Text>
+      {!!message.content && (
+        <Text style={{ color: isMe ? 'black' : 'white' }}>
+          {message.content}
+        </Text>
+      )}
     </View>
   );
 };
