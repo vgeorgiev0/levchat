@@ -11,6 +11,7 @@ import styles from './styles';
 import { Auth } from 'aws-amplify';
 // @ts-ignore
 import { S3Image } from 'aws-amplify-react-native';
+// TODO ? Add lightbox  to the images.
 
 // @ts-ignore
 const Message = ({ message }) => {
