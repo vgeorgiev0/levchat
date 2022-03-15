@@ -30,6 +30,7 @@ const MessageInput = ({ chatRoom }) => {
   const [message, setMessage] = useState('');
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const [image, setImage] = useState<string | null>(null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     async () => {
@@ -55,8 +56,7 @@ const MessageInput = ({ chatRoom }) => {
 
     updateLastMessage(newMessage);
 
-    setMessage('');
-    setIsEmojiPickerOpen(false);
+    resetFields();
   };
   // @ts-ignore
 
@@ -85,10 +85,18 @@ const MessageInput = ({ chatRoom }) => {
     }
   };
 
+  const resetFields = () => {
+    setImage(null);
+    setMessage('');
+    setIsEmojiPickerOpen(false);
+    setProgress(0);
+  };
+
   // Image picker
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      // allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
     });
@@ -110,14 +118,35 @@ const MessageInput = ({ chatRoom }) => {
       setImage(result.uri);
     }
   };
+  const progressCallback = (progress: any) => {
+    setProgress(progress.loaded / progress.total);
+  };
 
   const sendImage = async () => {
     if (!image) {
       return;
     }
     const blob = await getImageBlob();
-    await Storage.put(`${uuidv4()}.png`, blob);
+    const { key } = await Storage.put(`${uuidv4()}.png`, blob, {
+      progressCallback,
+    });
+
+    // send message
+    const user = await Auth.currentAuthenticatedUser();
+    const newMessage = await DataStore.save(
+      new Message({
+        content: message,
+        image: key,
+        userID: user.attributes.sub,
+        chatroomID: chatRoom.id,
+      })
+    );
+
+    updateLastMessage(newMessage);
+
+    resetFields();
   };
+
   const getImageBlob = async () => {
     if (!image) {
       return null;
@@ -139,6 +168,11 @@ const MessageInput = ({ chatRoom }) => {
             source={{ uri: image }}
             style={{ width: 100, height: 100, borderRadius: 10 }}
           />
+          <View style={styles.progressContainer}>
+            <View
+              style={[styles.progress, { width: `${progress * 100}%` }]}
+            ></View>
+          </View>
           <TouchableOpacity
             onPress={() => {
               setImage(null);
