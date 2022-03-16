@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 5,
   },
-  sentImageContainer: {
+  sendContainer: {
     flexDirection: 'row',
     marginVertical: 10,
     alignSelf: 'stretch',
@@ -31,6 +31,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignSelf: 'flex-end',
+  },
+  audioProgressBG: {
+    height: 3,
+    flex: 1,
+    backgroundColor: 'lightgrey',
+    borderRadius: 5,
+    margin: 10,
+  },
+  audioProgressFG: {
+    width: 15,
+    height: 15,
+    borderRadius: 10,
+    backgroundColor: '#3777f0',
+    top: -6,
   },
   progress: {
     height: 5,
