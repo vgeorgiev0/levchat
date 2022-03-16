@@ -33,7 +33,6 @@ const AudioPlayer = ({ soundURI }: any) => {
     setSound(sound);
   };
 
-  // Audio
   const onPlaybackStatusUpdate = (status: AVPlaybackStatus) => {
     if (!status.isLoaded) {
       return;
@@ -62,6 +61,7 @@ const AudioPlayer = ({ soundURI }: any) => {
   };
 
   return (
+    // TODO make this component swipeable and discard it on swipe https://www.youtube.com/watch?v=JxN9W9PRlUQ
     <View style={[styles.sendContainer, { padding: 10, alignItems: 'center' }]}>
       <TouchableOpacity onPress={playPauseSound}>
         <Feather name={paused ? 'play' : 'pause'} size={24} color="grey" />
