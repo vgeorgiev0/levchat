@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Image,
+  Text,
 } from 'react-native';
 import React, { useEffect } from 'react';
 import {
@@ -25,6 +26,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Audio, AVPlaybackStatus } from 'expo-av';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+import AudioPlayer from '../AudioPlayer';
 
 // @ts-ignore
 const MessageInput = ({ chatRoom }) => {
@@ -33,9 +35,7 @@ const MessageInput = ({ chatRoom }) => {
   const [image, setImage] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
-  const [soundURI, setSoundURI] = useState<Audio.Sound | null>(null);
-  const [paused, setPaused] = useState(true);
-  const [audioProgress, setAudioProgress] = useState(0);
+  const [soundURI, setSoundURI] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -69,12 +69,10 @@ const MessageInput = ({ chatRoom }) => {
 
     resetFields();
   };
-  // @ts-ignore
 
+  // @ts-ignore
   const updateLastMessage = async (newMessage) => {
     DataStore.save(
-      // @ts-ignore
-
       ChatRoom.copyOf(chatRoom, (updatedChatRoom) => {
         updatedChatRoom.LastMessage = newMessage;
       })
@@ -88,7 +86,8 @@ const MessageInput = ({ chatRoom }) => {
   const onPress = () => {
     if (image) {
       sendImage();
-      setImage(null);
+    } else if (soundURI) {
+      sendAudio();
     } else if (message) {
       sendMessage();
     } else {
@@ -97,25 +96,23 @@ const MessageInput = ({ chatRoom }) => {
   };
 
   const resetFields = () => {
-    setImage(null);
     setMessage('');
     setIsEmojiPickerOpen(false);
+    setImage(null);
     setProgress(0);
+    setSoundURI(null);
   };
 
   // Image picker
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      // allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.5,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
-      //@ts-ignore
       setImage(result.uri);
     }
   };
@@ -123,13 +120,16 @@ const MessageInput = ({ chatRoom }) => {
   const takePhoto = async () => {
     const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      aspect: [1, 1],
+      aspect: [4, 3],
     });
+
     if (!result.cancelled) {
       setImage(result.uri);
     }
   };
-  const progressCallback = (progress: any) => {
+  // @ts-ignore
+
+  const progressCallback = (progress) => {
     setProgress(progress.loaded / progress.total);
   };
 
@@ -137,7 +137,7 @@ const MessageInput = ({ chatRoom }) => {
     if (!image) {
       return;
     }
-    const blob = await getImageBlob();
+    const blob = await getBlob(image);
     const { key } = await Storage.put(`${uuidv4()}.png`, blob, {
       progressCallback,
     });
@@ -158,22 +158,10 @@ const MessageInput = ({ chatRoom }) => {
     resetFields();
   };
 
-  const getImageBlob = async () => {
-    if (!image) {
-      return null;
-    }
-    const response = await fetch(image);
-    const blob = await response.blob();
+  const getBlob = async (uri: string) => {
+    const respone = await fetch(uri);
+    const blob = await respone.blob();
     return blob;
-  };
-
-  // Audio record
-
-  const onPlaybackStatusUpdate = (status: AVPlaybackStatus) => {
-    if (!status.isLoaded) {
-      return;
-    }
-    setAudioProgress(status.positionMillis / (status.durationMillis || 1));
   };
 
   async function startRecording() {
@@ -182,11 +170,11 @@ const MessageInput = ({ chatRoom }) => {
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
       });
+
       console.log('Starting recording..');
       const { recording } = await Audio.Recording.createAsync(
         Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
       );
-
       setRecording(recording);
       console.log('Recording started');
     } catch (err) {
@@ -199,35 +187,46 @@ const MessageInput = ({ chatRoom }) => {
     if (!recording) {
       return;
     }
+
     setRecording(null);
     await recording.stopAndUnloadAsync();
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
     });
+
     const uri = recording.getURI();
     console.log('Recording stopped and stored at', uri);
-
     if (!uri) {
       return;
     }
-    const { sound } = await Audio.Sound.createAsync(
-      { uri },
-      {},
-      onPlaybackStatusUpdate
-    );
-    setSoundURI(sound);
+    setSoundURI(uri);
   }
-  const playPauseSound = async () => {
+
+  const sendAudio = async () => {
     if (!soundURI) {
       return;
     }
-    if (paused) {
-      setPaused(false);
-      await soundURI.playAsync();
-    } else {
-      setPaused(true);
-      await soundURI.pauseAsync();
-    }
+    const uriParts = soundURI.split('.');
+    const extension = uriParts[uriParts.length - 1];
+    const blob = await getBlob(soundURI);
+    const { key } = await Storage.put(`${uuidv4()}.${extension}`, blob, {
+      progressCallback,
+    });
+
+    // send message
+    const user = await Auth.currentAuthenticatedUser();
+    const newMessage = await DataStore.save(
+      new Message({
+        content: message,
+        audio: key,
+        userID: user.attributes.sub,
+        chatroomID: chatRoom.id,
+      })
+    );
+
+    updateLastMessage(newMessage);
+
+    resetFields();
   };
 
   return (
@@ -262,23 +261,7 @@ const MessageInput = ({ chatRoom }) => {
         </View>
       )}
 
-      {soundURI && (
-        <View
-          style={[styles.sendContainer, { padding: 10, alignItems: 'center' }]}
-        >
-          <TouchableOpacity onPress={playPauseSound}>
-            <Feather name={paused ? 'play' : 'pause'} size={24} color="grey" />
-          </TouchableOpacity>
-          <View style={styles.audioProgressBG}>
-            <TouchableOpacity
-              style={[
-                styles.audioProgressFG,
-                { left: `${audioProgress * 100}%` },
-              ]}
-            />
-          </View>
-        </View>
-      )}
+      {soundURI && <AudioPlayer soundURI={soundURI} />}
 
       <View style={styles.row}>
         <View style={styles.inputContainer}>
@@ -330,7 +313,7 @@ const MessageInput = ({ chatRoom }) => {
         </View>
         <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
           <View>
-            {message || image ? (
+            {message || image || soundURI ? (
               <MaterialIcons name="send" size={18} color="white" />
             ) : (
               <Feather name="plus" size={20} color="white" />

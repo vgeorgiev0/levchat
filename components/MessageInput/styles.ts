@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'lightgrey',
     borderRadius: 5,
-    margin: 10,
+    marginHorizontal: 20,
   },
   audioProgressFG: {
     width: 15,
