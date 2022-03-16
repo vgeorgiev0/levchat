@@ -24,6 +24,7 @@ export type RootStackParamList = {
   ChatRoom: any;
   HomeScreen: undefined;
   UsersScreen: any;
+  UserProfile: any;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

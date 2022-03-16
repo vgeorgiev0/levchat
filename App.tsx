@@ -5,7 +5,7 @@ import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 // LogBox.ignoreLogs(['Setting a timer']);
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Amplify, DataStore, Hub } from 'aws-amplify';
+import { Amplify, Auth, DataStore, Hub } from 'aws-amplify';
 // @ts-ignore
 import { withAuthenticator } from 'aws-amplify-react-native';
 import config from './src/aws-exports';
