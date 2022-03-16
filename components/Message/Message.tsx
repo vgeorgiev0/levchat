@@ -12,6 +12,7 @@ import { Auth, Storage } from 'aws-amplify';
 // @ts-ignore
 import { S3Image } from 'aws-amplify-react-native';
 import AudioPlayer from '../AudioPlayer';
+import { Ionicons } from '@expo/vector-icons';
 // TODO ? Add lightbox  to the images.
 
 // @ts-ignore
@@ -58,7 +59,7 @@ const Message = ({ message }) => {
         <View style={{ marginBottom: message.content ? 10 : 0 }}>
           <S3Image
             imgKey={message.image}
-            style={{ width: width * 0.7, aspectRatio: 4 / 3 }}
+            style={{ width: width * 0.65, aspectRatio: 4 / 3 }}
             resizeMode="contain"
           />
         </View>
@@ -68,6 +69,14 @@ const Message = ({ message }) => {
         <Text style={{ color: isMe ? 'black' : 'white' }}>
           {message.content}
         </Text>
+      )}
+      {isMe && (
+        <Ionicons
+          style={[{ marginHorizontal: 5 }]}
+          name="checkmark-done"
+          size={16}
+          color="black"
+        />
       )}
     </View>
   );

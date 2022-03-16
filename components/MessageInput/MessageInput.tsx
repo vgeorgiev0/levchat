@@ -5,7 +5,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   Image,
-  Text,
 } from 'react-native';
 import React, { useEffect } from 'react';
 import {
@@ -23,7 +22,7 @@ import { Auth, Storage } from 'aws-amplify';
 import { ChatRoom } from '../../src/models';
 import EmojiSelector from 'react-native-emoji-selector';
 import * as ImagePicker from 'expo-image-picker';
-import { Audio, AVPlaybackStatus } from 'expo-av';
+import { Audio } from 'expo-av';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import AudioPlayer from '../AudioPlayer';
@@ -107,7 +106,7 @@ const MessageInput = ({ chatRoom }) => {
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
+      // allowsEditing: true,
       aspect: [4, 3],
       quality: 0.5,
     });
@@ -171,19 +170,19 @@ const MessageInput = ({ chatRoom }) => {
         playsInSilentModeIOS: true,
       });
 
-      console.log('Starting recording..');
+      // console.log('Starting recording..');
       const { recording } = await Audio.Recording.createAsync(
         Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
       );
       setRecording(recording);
-      console.log('Recording started');
+      // console.log('Recording started');
     } catch (err) {
       console.error('Failed to start recording', err);
     }
   }
 
   async function stopRecording() {
-    console.log('Stopping recording..');
+    // console.log('Stopping recording..');
     if (!recording) {
       return;
     }
@@ -195,7 +194,7 @@ const MessageInput = ({ chatRoom }) => {
     });
 
     const uri = recording.getURI();
-    console.log('Recording stopped and stored at', uri);
+    // console.log('Recording stopped and stored at', uri);
     if (!uri) {
       return;
     }

@@ -32,7 +32,7 @@ const ChatTitle = ({ id, children }: { id: string; children: any }) => {
     fetchUsers();
   }, []);
   const { width } = useWindowDimensions();
-  console.log(user);
+  // console.log(user);
 
   return (
     <View

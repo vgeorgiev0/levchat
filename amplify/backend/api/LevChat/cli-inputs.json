@@ -3,7 +3,7 @@
   "serviceConfiguration": {
     "apiName": "LevChat",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "/tmp/amplify-2fe5b058-4da8-461c-bbcd-dd983410b427/amplify/backend/api/LevChat/schema.graphql",
+    "gqlSchemaPath": "/tmp/amplify-5cdcf777-8e8e-485c-a87e-ebb0f9ed7a87/amplify/backend/api/LevChat/schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
       "keyDescription": "api key description",
