@@ -8,9 +8,10 @@ import {
 import { DataStore } from '@aws-amplify/datastore';
 import { User } from '../../src/models';
 import styles from './styles';
-import { Auth } from 'aws-amplify';
+import { Auth, Storage } from 'aws-amplify';
 // @ts-ignore
 import { S3Image } from 'aws-amplify-react-native';
+import AudioPlayer from '../AudioPlayer';
 // TODO ? Add lightbox  to the images.
 
 // @ts-ignore
@@ -18,10 +19,17 @@ const Message = ({ message }) => {
   const [user, setUser] = useState<User | undefined>();
   const [isMe, setIsMe] = useState<boolean>(false);
   const { width } = useWindowDimensions();
+  const [soundURI, setSoundURI] = useState<any>(null);
 
   useEffect(() => {
     DataStore.query(User, message.userID).then(setUser);
   }, []);
+
+  useEffect(() => {
+    if (message.audio) {
+      Storage.get(message.audio).then(setSoundURI);
+    }
+  }, [message]);
 
   useEffect(() => {
     const checkIfMe = async () => {
@@ -43,6 +51,7 @@ const Message = ({ message }) => {
       style={[
         styles.container,
         isMe ? styles.containerRight : styles.containerLeft,
+        { width: soundURI ? '75%' : 'auto' },
       ]}
     >
       {message.image && (
@@ -54,6 +63,7 @@ const Message = ({ message }) => {
           />
         </View>
       )}
+      {soundURI && <AudioPlayer soundURI={soundURI} />}
       {!!message.content && (
         <Text style={{ color: isMe ? 'black' : 'white' }}>
           {message.content}
