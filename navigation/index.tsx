@@ -20,6 +20,7 @@ import ChatRoomScreen from '../screens/ChatRoomScreen';
 import UsersScreen from '../screens/UsersScreen';
 import UsersTitle from '../components/Titles/UsersTitle';
 import UserProfileScreen from '../screens/UserProfileScreen';
+import { BLUE, LIGHTBLUE, WHITE } from '../constants/Colors';
 
 export default function Navigation({
   colorScheme,
@@ -44,7 +45,10 @@ function RootNavigator() {
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{ headerTitle: HomeTitle }}
+        options={{
+          headerTitle: HomeTitle,
+          headerStyle: { backgroundColor: BLUE },
+        }}
       />
       <Stack.Screen
         name="UserProfile"
@@ -54,6 +58,7 @@ function RootNavigator() {
           // title: route.params.name,
           headerTitle: () => <UserProfileTitle />,
           headerBackTitleVisibleL: false,
+          headerStyle: { backgroundColor: BLUE },
         })}
       />
       <Stack.Screen
@@ -64,6 +69,7 @@ function RootNavigator() {
           // title: route.params.name,
           headerTitle: () => <ChatTitle id={route.params?.id} />,
           headerBackTitleVisibleL: false,
+          headerStyle: { backgroundColor: BLUE },
         })}
         // headerBackVisible: false,
         // headerBackTitleVisible: false,
@@ -71,7 +77,10 @@ function RootNavigator() {
       <Stack.Screen
         name="UsersScreen"
         component={UsersScreen}
-        options={{ headerTitle: UsersTitle }}
+        options={{
+          headerTitle: UsersTitle,
+          headerStyle: { backgroundColor: BLUE },
+        }}
       />
 
       <Stack.Screen

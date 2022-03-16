@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
+import { WHITE } from '../../constants/Colors';
 
 const UsersTitle = (props: any) => {
   const navigation = useNavigation();
@@ -35,19 +36,22 @@ const UsersTitle = (props: any) => {
         style={{ marginLeft: -30, width: 30, height: 30, borderRadius: 50 }}
       />
       <Text
-        style={{ flex: 1, fontSize: 22, fontWeight: 'bold', marginLeft: 90 }}
+        style={{
+          flex: 1,
+          fontSize: 22,
+          fontWeight: 'bold',
+          marginLeft: 90,
+          color: WHITE,
+        }}
       >
         Users
       </Text>
       <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity style={{ marginHorizontal: 5 }}>
-          <Feather name='camera' size={24} color='black' />
-        </TouchableOpacity>
         <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={navigate}>
           <MaterialCommunityIcons
-            name='dots-vertical'
+            name="dots-vertical"
             size={24}
-            color='black'
+            color={WHITE}
           />
         </TouchableOpacity>
       </View>

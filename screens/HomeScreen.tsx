@@ -4,6 +4,7 @@ import { View, StyleSheet, FlatList } from 'react-native';
 import { Auth, DataStore } from 'aws-amplify';
 import { ChatRoom, ChatRoomUser } from '../src/models';
 import ChatRoomItem from '../components/ChatRoomItem';
+import { BLUE, LIGHTBLUE } from '../constants/Colors';
 
 export default function TabOneScreen() {
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
@@ -40,7 +41,7 @@ export default function TabOneScreen() {
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: 'white',
+    backgroundColor: LIGHTBLUE,
     flex: 1,
   },
 });

@@ -13,6 +13,7 @@ import { ChatRoom, Message as MessageModel } from '../src/models';
 import Message from '../components/Message';
 import MessageInput from '../components/MessageInput';
 import { SortDirection } from 'aws-amplify';
+import { LIGHTBLUE } from '../constants/Colors';
 
 export default function ChatRoomScreen() {
   const [messages, setMessages] = useState<MessageModel[]>([]);
@@ -89,7 +90,7 @@ export default function ChatRoomScreen() {
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: 'white',
+    backgroundColor: LIGHTBLUE,
     flex: 1,
   },
 });

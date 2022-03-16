@@ -8,6 +8,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
+import { WHITE } from '../../constants/Colors';
 import { ChatRoomUser, User } from '../../src/models';
 
 const ChatTitle = ({ id, children }: { id: string; children: any }) => {
@@ -51,7 +52,9 @@ const ChatTitle = ({ id, children }: { id: string; children: any }) => {
         }}
         style={{ marginLeft: -30, width: 30, height: 30, borderRadius: 50 }}
       />
-      <Text style={{ flex: 1, fontWeight: 'bold', marginLeft: 10 }}>
+      <Text
+        style={{ flex: 1, fontWeight: 'bold', marginLeft: 10, color: WHITE }}
+      >
         {user
           ? user?.name.length > 20
             ? user?.name.substring(0, 20) + '...'
@@ -60,10 +63,10 @@ const ChatTitle = ({ id, children }: { id: string; children: any }) => {
       </Text>
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity style={{ marginHorizontal: 5 }}>
-          <Feather name="camera" size={24} color="black" />
+          <Feather name="camera" size={24} color={WHITE} />
         </TouchableOpacity>
         <TouchableOpacity style={{ marginHorizontal: 5 }}>
-          <Feather name="edit-2" size={24} color="black" />
+          <Feather name="edit-2" size={24} color={WHITE} />
         </TouchableOpacity>
       </View>
     </View>

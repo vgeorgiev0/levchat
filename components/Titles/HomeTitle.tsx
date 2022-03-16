@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
+import { RED, WHITE } from '../../constants/Colors';
 import { User } from '../../src/models';
 
 const HomeTitle = (props: any) => {
@@ -56,15 +57,22 @@ const HomeTitle = (props: any) => {
           style={{ width: 30, height: 30, borderRadius: 50 }}
         />
       </TouchableOpacity>
-      <Text style={{ marginLeft: 40, fontSize: 22, fontWeight: 'bold' }}>
+      <Text
+        style={{
+          marginLeft: 40,
+          fontSize: 22,
+          fontWeight: 'bold',
+          color: WHITE,
+        }}
+      >
         Home
       </Text>
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={navigate}>
-          <Feather name="users" size={24} color="black" />
+          <Feather name="users" size={24} color={WHITE} />
         </TouchableOpacity>
         <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={logOut}>
-          <MaterialCommunityIcons name="logout" size={24} color="black" />
+          <MaterialCommunityIcons name="logout" size={24} color={RED} />
         </TouchableOpacity>
       </View>
     </View>

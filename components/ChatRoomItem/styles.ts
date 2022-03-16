@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { RED, WHITE } from '../../constants/Colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -6,13 +7,14 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   image: {
+    backgroundColor: WHITE,
     height: 50,
     width: 50,
     borderRadius: 30,
     marginRight: 10,
   },
   badgeContainer: {
-    backgroundColor: '#3777f0',
+    backgroundColor: RED,
     width: 20,
     height: 20,
     borderRadius: 10,
@@ -38,11 +40,12 @@ const styles = StyleSheet.create({
   },
   name: {
     fontWeight: 'bold',
+    color: WHITE,
     fontSize: 18,
     marginBottom: 3,
   },
   text: {
-    color: 'grey',
+    color: `${WHITE}9f`,
   },
 });
 

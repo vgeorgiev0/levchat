@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
+import { BLUE, WHITE } from '../../constants/Colors';
 import { User } from '../../src/models';
 
 const UsersTitle = ({ id }: any) => {
@@ -57,15 +58,20 @@ const UsersTitle = ({ id }: any) => {
         }}
         style={{ marginLeft: -30, width: 30, height: 30, borderRadius: 50 }}
       />
-      <Text style={{ flex: 1, fontWeight: 'bold', marginLeft: 10 }}>
+      <Text
+        style={{
+          flex: 1,
+          fontWeight: 'bold',
+          marginLeft: 40,
+          color: WHITE,
+          fontSize: 16,
+        }}
+      >
         {title}
       </Text>
       <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity style={{ marginHorizontal: 5 }}>
-          <Feather name="camera" size={24} color="black" />
-        </TouchableOpacity>
         <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={navigate}>
-          <MaterialCommunityIcons name="check" size={24} color="black" />
+          <MaterialCommunityIcons name="check" size={24} color={WHITE} />
         </TouchableOpacity>
       </View>
     </View>
