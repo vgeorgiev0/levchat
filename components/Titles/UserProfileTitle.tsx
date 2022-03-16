@@ -13,7 +13,8 @@ import {
 import { User } from '../../src/models';
 
 const UsersTitle = ({ id }: any) => {
-  const [userName, setUserName] = useState<string>('');
+  const [userName, setUserName] = useState('');
+  const [userImageUri, setUserImageUri] = useState('');
 
   const navigation = useNavigation();
   const navigate = () => {
@@ -30,6 +31,8 @@ const UsersTitle = ({ id }: any) => {
         await DataStore.query(User)
       ).filter((currentUser) => currentUser.id === authUser.attributes.sub);
       setUserName(fetchedUser[0].name);
+      // @ts-ignore
+      setUserImageUri(fetchedUser[0].imageUri || null);
     };
     fetchUsers();
   }, []);
@@ -50,7 +53,7 @@ const UsersTitle = ({ id }: any) => {
     >
       <Image
         source={{
-          uri: 'https://images.pexels.com/photos/1435517/pexels-photo-1435517.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
+          uri: userImageUri,
         }}
         style={{ marginLeft: -30, width: 30, height: 30, borderRadius: 50 }}
       />

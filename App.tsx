@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
-import { LogBox } from 'react-native';
+// import { LogBox } from 'react-native';
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 // LogBox.ignoreLogs(['Setting a timer']);

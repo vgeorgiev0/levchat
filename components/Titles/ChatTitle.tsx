@@ -52,7 +52,11 @@ const ChatTitle = ({ id, children }: { id: string; children: any }) => {
         style={{ marginLeft: -30, width: 30, height: 30, borderRadius: 50 }}
       />
       <Text style={{ flex: 1, fontWeight: 'bold', marginLeft: 10 }}>
-        {user?.name}
+        {user
+          ? user?.name.length > 20
+            ? user?.name.substring(0, 20) + '...'
+            : user?.name
+          : 'Unknown'}
       </Text>
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity style={{ marginHorizontal: 5 }}>

@@ -1,7 +1,8 @@
 import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { Auth } from 'aws-amplify';
+import { Auth, DataStore } from 'aws-amplify';
+import { useEffect, useState } from 'react';
 import {
   View,
   Image,
@@ -9,8 +10,22 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
+import { User } from '../../src/models';
 
 const HomeTitle = (props: any) => {
+  const [imageUri, setUserImageUri] = useState();
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const authUser = await Auth.currentAuthenticatedUser();
+      const fetchedUser = await (
+        await DataStore.query(User)
+      ).filter((currentUser) => currentUser.id === authUser.attributes.sub);
+      // @ts-ignore
+      setUserImageUri(fetchedUser[0].imageUri || null);
+    };
+    fetchUsers();
+  }, []);
   const navigation = useNavigation();
   const navigate = () => {
     // @ts-ignore
@@ -36,7 +51,7 @@ const HomeTitle = (props: any) => {
       <TouchableOpacity onPress={navigateToProfileScreen}>
         <Image
           source={{
-            uri: 'https://images.pexels.com/photos/1435517/pexels-photo-1435517.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
+            uri: imageUri,
           }}
           style={{ width: 30, height: 30, borderRadius: 50 }}
         />
