@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 import { DataStore } from '@aws-amplify/datastore';
-import { User } from '../../src/models';
+import { User, Message as MessageModel } from '../../src/models';
 import styles from './styles';
 import { Auth, Storage } from 'aws-amplify';
 // @ts-ignore
@@ -16,15 +16,33 @@ import { Ionicons } from '@expo/vector-icons';
 // TODO ? Add lightbox  to the images.
 
 // @ts-ignore
-const Message = ({ message }) => {
+const Message = (props) => {
+  const [message, setMessage] = useState<MessageModel>(props.message);
   const [user, setUser] = useState<User | undefined>();
-  const [isMe, setIsMe] = useState<boolean>(false);
-  const { width } = useWindowDimensions();
+  const [isMe, setIsMe] = useState<boolean | null>(null);
   const [soundURI, setSoundURI] = useState<any>(null);
+
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     DataStore.query(User, message.userID).then(setUser);
   }, []);
+
+  useEffect(() => {
+    const subscription = DataStore.observe(MessageModel, message.id).subscribe(
+      (msg) => {
+        if (msg.model === MessageModel && msg.opType === 'UPDATE') {
+          setMessage((message) => ({ ...message, ...msg.element }));
+        }
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    setAsRead();
+  }, [isMe, message]);
 
   useEffect(() => {
     if (message.audio) {
@@ -42,6 +60,16 @@ const Message = ({ message }) => {
     };
     checkIfMe();
   }, [user]);
+
+  const setAsRead = async () => {
+    if (isMe === false && message.status !== 'READ') {
+      await DataStore.save(
+        MessageModel.copyOf(message, (updated) => {
+          updated.status = 'READ';
+        })
+      );
+    }
+  };
 
   if (!user) {
     return <ActivityIndicator />;
@@ -70,12 +98,13 @@ const Message = ({ message }) => {
           {message.content}
         </Text>
       )}
-      {isMe && (
+
+      {isMe && !!message.status && message.status !== 'SENT' && (
         <Ionicons
-          style={[{ marginHorizontal: 5 }]}
-          name="checkmark-done"
+          name={message.status === 'DELIVERED' ? 'checkmark' : 'checkmark-done'}
           size={16}
-          color="black"
+          color="gray"
+          style={{ marginHorizontal: 5 }}
         />
       )}
     </View>

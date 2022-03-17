@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
-// import { LogBox } from 'react-native';
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-// LogBox.ignoreLogs(['Setting a timer']);
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Amplify, Auth, DataStore, Hub } from 'aws-amplify';
+import { Amplify, DataStore, Hub } from 'aws-amplify';
 // @ts-ignore
 import { withAuthenticator } from 'aws-amplify-react-native';
 import config from './src/aws-exports';
@@ -21,23 +19,25 @@ function App() {
   const colorScheme = useColorScheme();
 
   useEffect(() => {
-    // Create a listener
+    // Create listener
+    console.log('registering listener');
     const listener = Hub.listen('datastore', async (hubData) => {
       const { event, data } = hubData.payload;
-      if (event === 'networkStatus') {
-        console.log(`User has a network connection: ${data.active}`);
-      }
-      if (event === 'outboxMutationProcessed') {
-        if (data.model === Message) {
-          // Set the message status to delivered
-          DataStore.save(
-            Message.copyOf(data.element, (updated) => {
-              updated.status = 'DELIVERED';
-            })
-          );
-        }
+      if (
+        event === 'outboxMutationProcessed' &&
+        data.model === Message &&
+        !['DELIVERED', 'READ'].includes(data.element.status)
+      ) {
+        // set the message status to delivered
+        DataStore.save(
+          Message.copyOf(data.element, (updated) => {
+            updated.status = 'DELIVERED';
+          })
+        );
       }
     });
+
+    // Remove listener
     return () => listener();
   }, []);
 
