@@ -13,6 +13,7 @@ import { Auth, Storage } from 'aws-amplify';
 import { S3Image } from 'aws-amplify-react-native';
 import AudioPlayer from '../AudioPlayer';
 import { Ionicons } from '@expo/vector-icons';
+import { RED } from '../../constants/Colors';
 // TODO ? Add lightbox  to the images.
 
 // @ts-ignore
@@ -31,15 +32,16 @@ const Message = (props) => {
   useEffect(() => {
     const subscription = DataStore.observe(MessageModel, message.id).subscribe(
       (msg) => {
-        if (msg.model === MessageModel && msg.opType === 'UPDATE') {
-          setMessage((message) => ({ ...message, ...msg.element }));
+        if (msg.model === MessageModel) {
+          if (msg.opType === 'UPDATE') {
+            setMessage((message) => ({ ...message, ...msg.element }));
+          }
         }
       }
     );
 
     return () => subscription.unsubscribe();
   }, []);
-
   useEffect(() => {
     setAsRead();
   }, [isMe, message]);
@@ -103,7 +105,7 @@ const Message = (props) => {
         <Ionicons
           name={message.status === 'DELIVERED' ? 'checkmark' : 'checkmark-done'}
           size={16}
-          color="gray"
+          color={message.status === 'DELIVERED' ? 'gray' : RED}
           style={{ marginHorizontal: 5 }}
         />
       )}

@@ -1,5 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import { Auth, DataStore } from 'aws-amplify';
+import moment from 'moment';
 import { useEffect, useState } from 'react';
 import {
   Image,
@@ -8,7 +9,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import { WHITE } from '../../constants/Colors';
+import { RED, WHITE } from '../../constants/Colors';
 import { ChatRoomUser, User } from '../../src/models';
 
 const ChatTitle = ({ id, children }: { id: string; children: any }) => {
@@ -33,7 +34,20 @@ const ChatTitle = ({ id, children }: { id: string; children: any }) => {
     fetchUsers();
   }, []);
   const { width } = useWindowDimensions();
-  // console.log(user);
+
+  const getLastOnlineText = () => {
+    if (!user?.lastOnlineAt) {
+      return null;
+    }
+    const lastOnlineDiffMS = moment().diff(moment(user?.lastOnlineAt));
+
+    if (lastOnlineDiffMS < 3 * 60 * 1000) {
+      // Less than three minutes
+      return 'Online';
+    } else {
+      return `Last seen online ${moment(user.lastOnlineAt).fromNow()}`;
+    }
+  };
 
   return (
     <View
@@ -50,24 +64,41 @@ const ChatTitle = ({ id, children }: { id: string; children: any }) => {
         source={{
           uri: user?.imageUri,
         }}
-        style={{ marginLeft: -30, width: 30, height: 30, borderRadius: 50 }}
+        style={{
+          marginLeft: -30,
+          width: 30,
+          height: 30,
+          borderRadius: 50,
+          backgroundColor: WHITE,
+        }}
       />
-      <Text
-        style={{ flex: 1, fontWeight: 'bold', marginLeft: 10, color: WHITE }}
-      >
-        {user
-          ? user?.name.length > 20
-            ? user?.name.substring(0, 20) + '...'
-            : user?.name
-          : 'Unknown'}
-      </Text>
+      <View style={{ flex: 1 }}>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            marginLeft: 10,
+            color: WHITE,
+            fontSize: 16,
+            textTransform: 'capitalize',
+          }}
+        >
+          {user
+            ? user?.name.length > 20
+              ? user?.name.substring(0, 20) + '...'
+              : user?.name
+            : 'Unknown'}
+        </Text>
+        <Text style={{ color: WHITE, paddingLeft: 10, fontSize: 13 }}>
+          {getLastOnlineText()}
+        </Text>
+      </View>
       <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity style={{ marginHorizontal: 5 }}>
+        {/* <TouchableOpacity style={{ marginHorizontal: 5 }}>
           <Feather name="camera" size={24} color={WHITE} />
         </TouchableOpacity>
         <TouchableOpacity style={{ marginHorizontal: 5 }}>
-          <Feather name="edit-2" size={24} color={WHITE} />
-        </TouchableOpacity>
+          <Feather name="edit-2" size={24} color={RED} />
+        </TouchableOpacity> */}
       </View>
     </View>
   );

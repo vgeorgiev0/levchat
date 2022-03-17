@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { RED } from '../../constants/Colors';
 
 const styles = StyleSheet.create({
   root: {
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: 40,
     height: 40,
-    backgroundColor: '#3777f0',
+    backgroundColor: RED,
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',

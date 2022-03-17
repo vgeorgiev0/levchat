@@ -20,7 +20,7 @@ export default function ChatRoomScreen() {
   const [chatRoom, setChatRoom] = useState<ChatRoom | null>(null);
 
   const route = useRoute();
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
   useEffect(() => {
     fetchChatRoom();
