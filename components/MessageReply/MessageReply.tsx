@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-  Pressable,
-} from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { DataStore } from '@aws-amplify/datastore';
 import { User } from '../../src/models';
 import { Auth, Storage } from 'aws-amplify';
@@ -15,9 +9,7 @@ import { useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AudioPlayer from '../AudioPlayer';
 import { Message as MessageModel } from '../../src/models';
-
-const blue = '#3777f0';
-const grey = 'lightgrey';
+import styles from './styles';
 
 // @ts-ignore
 const MessageReply = (props) => {
@@ -64,10 +56,11 @@ const MessageReply = (props) => {
     <View
       style={[
         styles.container,
-        isMe ? styles.rightContainer : styles.leftContainer,
+        isMe ? styles.containerRight : styles.containerLeft,
         { width: soundURI ? '75%' : 'auto' },
       ]}
     >
+      <Text style={styles.messageReply}>reply to: </Text>
       <View style={styles.row}>
         {message.image && (
           <View style={{ marginBottom: message.content ? 10 : 0 }}>
@@ -100,33 +93,33 @@ const MessageReply = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-    margin: 10,
-    borderRadius: 10,
-    maxWidth: '75%',
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-  },
-  messageReply: {
-    backgroundColor: 'gray',
-    padding: 5,
-    borderRadius: 5,
-  },
-  leftContainer: {
-    backgroundColor: blue,
-    marginLeft: 10,
-    marginRight: 'auto',
-  },
-  rightContainer: {
-    backgroundColor: grey,
-    marginLeft: 'auto',
-    marginRight: 10,
-    alignItems: 'flex-end',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     padding: 10,
+//     margin: 10,
+//     borderRadius: 10,
+//     maxWidth: '75%',
+//   },
+//   row: {
+//     flexDirection: 'row',
+//     alignItems: 'flex-end',
+//   },
+//   messageReply: {
+//     backgroundColor: 'gray',
+//     padding: 5,
+//     borderRadius: 5,
+//   },
+//   leftContainer: {
+//     backgroundColor: blue,
+//     marginLeft: 10,
+//     marginRight: 'auto',
+//   },
+//   rightContainer: {
+//     backgroundColor: grey,
+//     marginLeft: 'auto',
+//     marginRight: 10,
+//     alignItems: 'flex-end',
+//   },
+// });
 
 export default MessageReply;

@@ -5,6 +5,7 @@ export const BLUE = '#1287BA';
 export const BLACK = '#040F16';
 export const RED = '#B80C09';
 export const WHITE = '#FBFBFF';
+export const CHATBLUE = '#3777f0';
 
 // export default {
 //   light: {

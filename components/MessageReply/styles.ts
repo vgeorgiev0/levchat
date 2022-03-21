@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { BLACK } from '../../constants/Colors';
+import { BLACK, CHATBLUE } from '../../constants/Colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -10,12 +10,12 @@ const styles = StyleSheet.create({
   },
   row: { flexDirection: 'row', alignItems: 'flex-end' },
   messageReply: {
-    color: `${BLACK}7a`,
+    color: `${BLACK}6a`,
     padding: 5,
     borderRadius: 5,
   },
   containerLeft: {
-    backgroundColor: '#3777f0',
+    backgroundColor: CHATBLUE,
     marginLeft: 10,
     marginRight: 'auto',
   },

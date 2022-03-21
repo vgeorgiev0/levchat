@@ -1,3 +1,4 @@
+import { CHATBLUE } from './../../constants/Colors';
 import { StyleSheet } from 'react-native';
 import { RED } from '../../constants/Colors';
 
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
   progress: {
     height: 5,
     borderRadius: 5,
-    backgroundColor: '#3777f0',
+    backgroundColor: CHATBLUE,
   },
   input: {
     flex: 1,

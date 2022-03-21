@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     borderColor: 'lightgray',
     borderRadius: 10,
     backgroundColor: 'white',
+    width: '90%',
   },
   progressContainer: {
     flex: 1,

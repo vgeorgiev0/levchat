@@ -104,10 +104,7 @@ const Message = (props) => {
         { width: soundURI ? '75%' : 'auto' },
       ]}
     >
-      {repliedTo && (
-        <MessageReply message={repliedTo} />
-        // <Text style={styles.messageReply}>reply to: {repliedTo.content} </Text>
-      )}
+      {repliedTo && <MessageReply message={repliedTo} />}
       <View style={styles.row}>
         {message.image && (
           <View style={{ marginBottom: message.content ? 10 : 0 }}>
