@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Image,
+  Text,
 } from 'react-native';
 import React, { useEffect } from 'react';
 import {
@@ -15,20 +16,21 @@ import {
   AntDesign,
 } from '@expo/vector-icons';
 import { DataStore } from '@aws-amplify/datastore';
-import { Message } from '../../src/models';
+import { Message as MessageModel, ChatRoom } from '../../src/models';
 import styles from './styles';
 import { useState } from 'react';
 import { Auth, Storage } from 'aws-amplify';
-import { ChatRoom } from '../../src/models';
 import EmojiSelector from 'react-native-emoji-selector';
 import * as ImagePicker from 'expo-image-picker';
 import { Audio } from 'expo-av';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import AudioPlayer from '../AudioPlayer';
+import MessageComponent from '../Message';
+import { BLUE, LIGHTBLUE, RED, WHITE } from '../../constants/Colors';
 
 // @ts-ignore
-const MessageInput = ({ chatRoom }) => {
+const MessageInput = ({ chatRoom, messageReplyTo, removeMessageReplyTo }) => {
   const [message, setMessage] = useState('');
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const [image, setImage] = useState<string | null>(null);
@@ -57,11 +59,12 @@ const MessageInput = ({ chatRoom }) => {
     // send message
     const user = await Auth.currentAuthenticatedUser();
     const newMessage = await DataStore.save(
-      new Message({
+      new MessageModel({
         content: message,
         userID: user.attributes.sub,
         chatroomID: chatRoom.id,
         status: 'SENT',
+        replyToMessageID: messageReplyTo?.id,
       })
     );
 
@@ -101,6 +104,7 @@ const MessageInput = ({ chatRoom }) => {
     setImage(null);
     setProgress(0);
     setSoundURI(null);
+    removeMessageReplyTo();
   };
 
   // Image picker
@@ -145,11 +149,12 @@ const MessageInput = ({ chatRoom }) => {
     // send message
     const user = await Auth.currentAuthenticatedUser();
     const newMessage = await DataStore.save(
-      new Message({
+      new MessageModel({
         content: message,
         image: key,
         userID: user.attributes.sub,
         chatroomID: chatRoom.id,
+        replyToMessageID: messageReplyTo?.id,
       })
     );
 
@@ -216,11 +221,12 @@ const MessageInput = ({ chatRoom }) => {
     // send message
     const user = await Auth.currentAuthenticatedUser();
     const newMessage = await DataStore.save(
-      new Message({
+      new MessageModel({
         content: message,
         audio: key,
         userID: user.attributes.sub,
         chatroomID: chatRoom.id,
+        replyToMessageID: messageReplyTo?.id,
       })
     );
 
@@ -235,6 +241,41 @@ const MessageInput = ({ chatRoom }) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={100}
     >
+      {messageReplyTo && (
+        <View
+          style={{
+            backgroundColor: BLUE,
+            padding: 5,
+            borderRadius: 25,
+            flexDirection: 'row',
+          }}
+        >
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{
+                marginHorizontal: 10,
+                color: WHITE,
+                textAlign: 'center',
+              }}
+            >
+              Reply to:
+            </Text>
+            <MessageComponent message={messageReplyTo} />
+          </View>
+          <TouchableOpacity
+            onPress={() => {
+              removeMessageReplyTo();
+            }}
+          >
+            <AntDesign
+              name="close"
+              size={24}
+              color={'black'}
+              style={{ margin: 5 }}
+            />
+          </TouchableOpacity>
+        </View>
+      )}
       {image && (
         <View style={styles.sendContainer}>
           <Image

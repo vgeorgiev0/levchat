@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add -D @types/aws-amplify-react-native
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @types/aws-amplify-react-native
 
 PATH: 
-  C:\Python310\Scripts\;C:\Python310\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\dotnet\;C:\Program Files\OpenJDK\openjdk-11.0.13_8\bin;C:\Program Files\Amazon\AWSCLIV2\;C:\Users\ValentinGeorgiev\.amplify\bin;C:\Users\ValentinGeorgiev\.amplify\bin;C:\Users\ValentinGeorgiev\AppData\Local\Microsoft\WindowsApps;C:\Users\ValentinGeorgiev\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\ValentinGeorgiev\AppData\Roaming\npm;C:\Users\ValentinGeorgiev\AppData\Local\Yarn\bin;C:\Project\adb;C:\Program Files\JetBrains\WebStorm 2021.3.2\bin
+  C:\Python310\Scripts\;C:\Python310\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\dotnet\;C:\Program Files\OpenJDK\openjdk-11.0.13_8\bin;C:\Program Files\Amazon\AWSCLIV2\;C:\Users\ValentinGeorgiev\.amplify\bin;C:\Users\ValentinGeorgiev\.amplify\bin;C:\Users\ValentinGeorgiev\AppData\Local\Microsoft\WindowsApps;C:\Users\ValentinGeorgiev\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\ValentinGeorgiev\AppData\Roaming\npm;C:\Users\ValentinGeorgiev\AppData\Local\Yarn\bin;C:\Project\adb;;C:\Program Files\JetBrains\WebStorm 2021.3.2\bin;
 
 Yarn version: 
   1.22.4
@@ -57,6 +57,7 @@ npm manifest:
       "aws-amplify-react-native": "^6.0.3",
       "expo": "~44.0.0",
       "expo-asset": "~8.4.4",
+      "expo-av": "~10.2.0",
       "expo-constants": "~13.0.0",
       "expo-font": "~10.0.4",
       "expo-image-picker": "~12.0.1",
@@ -65,6 +66,7 @@ npm manifest:
       "expo-status-bar": "~1.2.0",
       "expo-web-browser": "~10.1.0",
       "metro-config": "^0.69.0",
+      "moment": "^2.29.1",
       "react": "17.0.1",
       "react-dom": "17.0.1",
       "react-native": "0.64.3",
@@ -5932,6 +5934,13 @@ Lockfile:
       path-browserify "^1.0.0"
       url-parse "^1.4.4"
   
+  expo-av@~10.2.0:
+    version "10.2.1"
+    resolved "https://registry.yarnpkg.com/expo-av/-/expo-av-10.2.1.tgz#c08bce464d673d0e90c68cac082bfb75a9437f25"
+    integrity sha512-thrkHVg4HVn8L+jHKVnXYd4TLkJQblFE8QXd3d1hwrYG63gehQT2nK4DM0Frl50EcdV8YN9XjhwHobtK5oMc9A==
+    dependencies:
+      "@expo/config-plugins" "^4.0.2"
+  
   expo-constants@~13.0.0, expo-constants@~13.0.2:
     version "13.0.2"
     resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-13.0.2.tgz#b489ecd575cc82a9a0b3dfbf2385d45a44300eb1"
@@ -8466,6 +8475,11 @@ Lockfile:
     integrity sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
     dependencies:
       minimist "^1.2.5"
+  
+  moment@^2.29.1:
+    version "2.29.1"
+    resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
+    integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
   
   ms@2.0.0:
     version "2.0.0"
