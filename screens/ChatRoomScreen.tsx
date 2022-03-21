@@ -13,13 +13,17 @@ import { ChatRoom, Message as MessageModel } from '../src/models';
 import Message from '../components/Message';
 import MessageInput from '../components/MessageInput';
 import { SortDirection } from 'aws-amplify';
+import { LIGHTBLUE } from '../constants/Colors';
 
 export default function ChatRoomScreen() {
   const [messages, setMessages] = useState<MessageModel[]>([]);
   const [chatRoom, setChatRoom] = useState<ChatRoom | null>(null);
+  const [messageReplyTo, setMessageReplyTo] = useState<MessageModel | null>(
+    null
+  );
 
   const route = useRoute();
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
   useEffect(() => {
     fetchChatRoom();
@@ -79,17 +83,30 @@ export default function ChatRoomScreen() {
     <SafeAreaView style={styles.page}>
       <FlatList
         data={messages}
-        renderItem={({ item }) => <Message message={item} />}
+        renderItem={({ item }) => (
+          <Message
+            message={item}
+            setAsMessageReply={() => {
+              setMessageReplyTo(item);
+            }}
+          />
+        )}
         inverted
       />
-      <MessageInput chatRoom={chatRoom} />
+      <MessageInput
+        chatRoom={chatRoom}
+        messageReplyTo={messageReplyTo}
+        removeMessageReplyTo={() => {
+          setMessageReplyTo(null);
+        }}
+      />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: 'white',
+    backgroundColor: LIGHTBLUE,
     flex: 1,
   },
 });

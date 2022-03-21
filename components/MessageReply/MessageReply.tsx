@@ -1,31 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import {
-  ActivityIndicator,
-  Text,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { DataStore } from '@aws-amplify/datastore';
-import { User, Message as MessageModel } from '../../src/models';
-import styles from './styles';
+import { User } from '../../src/models';
 import { Auth, Storage } from 'aws-amplify';
 // @ts-ignore
 import { S3Image } from 'aws-amplify-react-native';
-import AudioPlayer from '../AudioPlayer';
+import { useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { RED } from '../../constants/Colors';
-import MessageReply from '../MessageReply';
-// TODO ? Add lightbox  to the images.
+import AudioPlayer from '../AudioPlayer';
+import { Message as MessageModel } from '../../src/models';
+import styles from './styles';
 
 // @ts-ignore
-const Message = (props) => {
-  const { setAsMessageReply, message: propMessage } = props;
+const MessageReply = (props) => {
+  const { message: propMessage } = props;
 
-  const [message, setMessage] = useState<MessageModel>(props.message);
-  const [repliedTo, setRepliedTo] = useState<MessageModel | undefined>(
-    undefined
-  );
+  const [message, setMessage] = useState<MessageModel>(propMessage);
+
   const [user, setUser] = useState<User | undefined>();
   const [isMe, setIsMe] = useState<boolean | null>(null);
   const [soundURI, setSoundURI] = useState<any>(null);
@@ -39,30 +30,6 @@ const Message = (props) => {
   useEffect(() => {
     setMessage(propMessage);
   }, [propMessage]);
-
-  useEffect(() => {
-    if (message?.replyToMessageID) {
-      DataStore.query(MessageModel, message.replyToMessageID).then(
-        setRepliedTo
-      );
-    }
-  }, [message]);
-
-  useEffect(() => {
-    const subscription = DataStore.observe(MessageModel, message.id).subscribe(
-      (msg) => {
-        if (msg.model === MessageModel) {
-          if (msg.opType === 'UPDATE') {
-            setMessage((message) => ({ ...message, ...msg.element }));
-          }
-        }
-      }
-    );
-    return () => subscription.unsubscribe();
-  }, []);
-  useEffect(() => {
-    setAsRead();
-  }, [isMe, message]);
 
   useEffect(() => {
     if (message.audio) {
@@ -81,30 +48,19 @@ const Message = (props) => {
     checkIfMe();
   }, [user]);
 
-  const setAsRead = async () => {
-    if (isMe === false && message.status !== 'READ') {
-      await DataStore.save(
-        MessageModel.copyOf(message, (updated) => {
-          updated.status = 'READ';
-        })
-      );
-    }
-  };
-
   if (!user) {
     return <ActivityIndicator />;
   }
 
   return (
-    <TouchableOpacity
-      onLongPress={setAsMessageReply}
+    <View
       style={[
         styles.container,
         isMe ? styles.containerRight : styles.containerLeft,
         { width: soundURI ? '75%' : 'auto' },
       ]}
     >
-      {repliedTo && <MessageReply message={repliedTo} />}
+      <Text style={styles.messageReply}>reply to: </Text>
       <View style={styles.row}>
         {message.image && (
           <View style={{ marginBottom: message.content ? 10 : 0 }}>
@@ -128,12 +84,42 @@ const Message = (props) => {
               message.status === 'DELIVERED' ? 'checkmark' : 'checkmark-done'
             }
             size={16}
-            color={message.status === 'DELIVERED' ? 'gray' : RED}
+            color="gray"
             style={{ marginHorizontal: 5 }}
           />
         )}
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
-export default Message;
+
+// const styles = StyleSheet.create({
+//   container: {
+//     padding: 10,
+//     margin: 10,
+//     borderRadius: 10,
+//     maxWidth: '75%',
+//   },
+//   row: {
+//     flexDirection: 'row',
+//     alignItems: 'flex-end',
+//   },
+//   messageReply: {
+//     backgroundColor: 'gray',
+//     padding: 5,
+//     borderRadius: 5,
+//   },
+//   leftContainer: {
+//     backgroundColor: blue,
+//     marginLeft: 10,
+//     marginRight: 'auto',
+//   },
+//   rightContainer: {
+//     backgroundColor: grey,
+//     marginLeft: 'auto',
+//     marginRight: 10,
+//     alignItems: 'flex-end',
+//   },
+// });
+
+export default MessageReply;

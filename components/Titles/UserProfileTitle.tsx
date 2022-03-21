@@ -10,11 +10,20 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
-import { RED, WHITE } from '../../constants/Colors';
+import { BLUE, WHITE } from '../../constants/Colors';
 import { User } from '../../src/models';
 
-const HomeTitle = (props: any) => {
-  const [imageUri, setUserImageUri] = useState();
+const UsersTitle = ({ id }: any) => {
+  const [userName, setUserName] = useState('');
+  const [userImageUri, setUserImageUri] = useState('');
+
+  const navigation = useNavigation();
+  const navigate = () => {
+    // @ts-ignore
+    navigation.navigate('HomeScreen');
+  };
+
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -22,61 +31,51 @@ const HomeTitle = (props: any) => {
       const fetchedUser = await (
         await DataStore.query(User)
       ).filter((currentUser) => currentUser.id === authUser.attributes.sub);
+      setUserName(fetchedUser[0].name);
       // @ts-ignore
       setUserImageUri(fetchedUser[0].imageUri || null);
     };
     fetchUsers();
   }, []);
-  const navigation = useNavigation();
-  const navigate = () => {
-    // @ts-ignore
-    navigation.navigate('UsersScreen');
-  };
-  const navigateToProfileScreen = () => {
-    navigation.navigate('UserProfile');
-  };
-  const logOut = () => {
-    Auth.signOut();
-  };
 
-  const { width } = useWindowDimensions();
+  const title =
+    userName.length > 20 ? userName.substring(0, 20) + '...' : userName;
+
   return (
     <View
       style={{
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: width - 20,
+        width: width - 30,
+        paddingRight: 50,
+        padding: 10,
         alignItems: 'center',
       }}
     >
-      <TouchableOpacity onPress={navigateToProfileScreen}>
-        <Image
-          source={{
-            uri: imageUri,
-          }}
-          style={{ width: 30, height: 30, borderRadius: 50 }}
-        />
-      </TouchableOpacity>
+      <Image
+        source={{
+          uri: userImageUri,
+        }}
+        style={{ marginLeft: -30, width: 30, height: 30, borderRadius: 50 }}
+      />
       <Text
         style={{
-          marginLeft: 40,
-          fontSize: 22,
+          flex: 1,
           fontWeight: 'bold',
+          marginLeft: 40,
           color: WHITE,
+          fontSize: 16,
         }}
       >
-        Home
+        {title}
       </Text>
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={navigate}>
-          <Feather name="users" size={24} color={WHITE} />
-        </TouchableOpacity>
-        <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={logOut}>
-          <MaterialCommunityIcons name="logout" size={24} color={RED} />
+          <MaterialCommunityIcons name="check" size={24} color={WHITE} />
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default HomeTitle;
+export default UsersTitle;
