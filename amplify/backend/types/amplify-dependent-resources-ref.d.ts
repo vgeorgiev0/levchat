@@ -26,7 +26,7 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "storage": {
-        "s348a5889f": {
+        "s3levchatstorage166e6408": {
             "BucketName": "string",
             "Region": "string"
         }

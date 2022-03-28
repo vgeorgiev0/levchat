@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, Image, View, Pressable, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { DataStore } from '@aws-amplify/datastore';
-import { ChatRoomUser, User, Message } from '../../src/models';
+import { ChatRoomUser, User, Message, ChatRoom } from '../../src/models';
 import styles from './styles';
 import Auth from '@aws-amplify/auth';
 import moment from 'moment';
@@ -48,11 +48,14 @@ export default function ChatRoomItem({ chatRoom }) {
     return <ActivityIndicator />;
   }
 
-  const formatTime = moment(lastMessage?.createdAt).from(moment());
+  const time = moment(lastMessage?.createdAt).from(moment());
 
   return (
     <Pressable onPress={onPress} style={styles.container}>
-      <Image source={{ uri: user.imageUri }} style={styles.image} />
+      <Image
+        source={{ uri: chatRoom.imageUri || user.imageUri }}
+        style={styles.image}
+      />
 
       {!!chatRoom.newMessages && (
         <View style={styles.badgeContainer}>
@@ -62,12 +65,8 @@ export default function ChatRoomItem({ chatRoom }) {
 
       <View style={styles.rightContainer}>
         <View style={styles.row}>
-          <Text style={styles.name}>
-            {user.name.length > 20
-              ? user.name.substring(0, 20) + '...'
-              : user.name}
-          </Text>
-          <Text style={styles.text}>{formatTime}</Text>
+          <Text style={styles.name}>{chatRoom.name || user.name}</Text>
+          <Text style={styles.text}>{time}</Text>
         </View>
         <Text numberOfLines={1} style={styles.text}>
           {lastMessage?.content}

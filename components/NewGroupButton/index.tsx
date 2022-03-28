@@ -3,11 +3,13 @@ import React from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { BLACK, RED } from '../../constants/Colors';
 
-type Props = {};
+type Props = {
+  onPress: () => void;
+};
 
 const NewGroupButton = (props: Props) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={props.onPress}>
       <View style={styles.row}>
         <FontAwesome name="group" size={24} color={RED} />
         <Text style={styles.text}>New Group</Text>
