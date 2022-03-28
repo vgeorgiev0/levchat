@@ -1,4 +1,3 @@
-import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -8,9 +7,12 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
+import { useRecoilValue } from 'recoil';
 import { WHITE } from '../../constants/Colors';
+import { authenticatedUserAtom } from '../../state/user';
 
-const UsersTitle = (props: any) => {
+const UsersTitle = () => {
+  const user = useRecoilValue(authenticatedUserAtom);
   const navigation = useNavigation();
   const navigate = () => {
     // @ts-ignore
@@ -31,7 +33,7 @@ const UsersTitle = (props: any) => {
     >
       <Image
         source={{
-          uri: 'https://images.pexels.com/photos/1435517/pexels-photo-1435517.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
+          uri: user?.imageUri,
         }}
         style={{ marginLeft: -30, width: 30, height: 30, borderRadius: 50 }}
       />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot, useSetRecoilState } from 'recoil';
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -12,6 +12,7 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import { Message, User } from './src/models';
 import { AppRegistry, LogBox } from 'react-native';
+import { authenticatedUserAtom } from './state/user';
 LogBox.ignoreLogs([
   'Setting a timer',
   "Warning: Can't perform a React state update on an unmounted component.",
@@ -26,7 +27,6 @@ Amplify.configure({
 });
 function App() {
   const [user, setUser] = useState<User | null>(null);
-
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
@@ -102,10 +102,7 @@ function App() {
   } else {
     return (
       <RecoilRoot>
-        <SafeAreaProvider>
-          <Navigation colorScheme={colorScheme} />
-          <StatusBar />
-        </SafeAreaProvider>
+        <Navigation colorScheme={colorScheme} />
       </RecoilRoot>
     );
   }

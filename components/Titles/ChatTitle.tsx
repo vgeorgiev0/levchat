@@ -1,18 +1,11 @@
-import { Feather } from '@expo/vector-icons';
 import { Auth, DataStore } from 'aws-amplify';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import {
-  Image,
-  Text,
-  useWindowDimensions,
-  View,
-  TouchableOpacity,
-} from 'react-native';
-import { RED, WHITE } from '../../constants/Colors';
+import { Image, Text, useWindowDimensions, View } from 'react-native';
+import { WHITE } from '../../constants/Colors';
 import { ChatRoomUser, User } from '../../src/models';
 
-const ChatTitle = ({ id, children }: { id: string; children: any }) => {
+const ChatTitle = ({ id }: { id: string; children: any }) => {
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     if (!id) {
@@ -23,8 +16,6 @@ const ChatTitle = ({ id, children }: { id: string; children: any }) => {
       const fetchedUsers = (await DataStore.query(ChatRoomUser))
         .filter((chatRoomUser) => chatRoomUser.chatRoom.id === id)
         .map((chatRoomUser) => chatRoomUser.user);
-
-      // setUsers(fetchedUsers);
 
       const authUser = await Auth.currentAuthenticatedUser();
       setUser(

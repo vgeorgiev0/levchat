@@ -1,10 +1,10 @@
+import React, { useEffect, useState, useRef } from 'react';
 import {
   NavigationContainer,
   DefaultTheme,
   DarkTheme,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 import HomeTitle from '../components/Titles/HomeTitle';
 import ChatTitle from '../components/Titles/ChatTitle';
@@ -21,6 +21,10 @@ import UsersScreen from '../screens/UsersScreen';
 import UsersTitle from '../components/Titles/UsersTitle';
 import UserProfileScreen from '../screens/UserProfileScreen';
 import { BLUE, LIGHTBLUE, WHITE } from '../constants/Colors';
+import { useRecoilState } from 'recoil';
+import { authenticatedUserAtom } from '../state/user';
+import { Auth, DataStore } from 'aws-amplify';
+import { User } from '../src/models';
 
 export default function Navigation({
   colorScheme,
@@ -40,6 +44,19 @@ export default function Navigation({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const [user, setUser] = useRecoilState(authenticatedUserAtom);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const authUser = await Auth.currentAuthenticatedUser();
+      const fetchedUser = (await DataStore.query(User)).filter(
+        (currentUser) => currentUser.id === authUser.attributes.sub
+      );
+      setUser(fetchedUser[0]);
+    };
+    fetchUser();
+  }, []);
+
   return (
     <Stack.Navigator>
       <Stack.Screen

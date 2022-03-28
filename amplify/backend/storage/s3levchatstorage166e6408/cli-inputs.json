@@ -1,0 +1,12 @@
+{
+  "resourceName": "s3levchatstorage166e6408",
+  "bucketName": "levchat-storage-166e6408",
+  "policyUUID": "91465029",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}

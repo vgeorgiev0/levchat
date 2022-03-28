@@ -1,6 +1,7 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
+import { User } from '../src/models';
 
-export const authenticatedUserAtom = atom({
-  key: 'messagesAtom',
-  default: '',
+export const authenticatedUserAtom = atom<User | null>({
+  key: 'authenticatedUserAtom',
+  default: null,
 });

@@ -1,8 +1,7 @@
 import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { Auth, DataStore } from 'aws-amplify';
-import { useEffect, useState } from 'react';
+import { Auth } from 'aws-amplify';
 import {
   View,
   Image,
@@ -10,23 +9,12 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
+import { useRecoilValue } from 'recoil';
 import { RED, WHITE } from '../../constants/Colors';
-import { User } from '../../src/models';
+import { authenticatedUserAtom } from '../../state/user';
 
-const HomeTitle = (props: any) => {
-  const [imageUri, setUserImageUri] = useState();
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const authUser = await Auth.currentAuthenticatedUser();
-      const fetchedUser = await (
-        await DataStore.query(User)
-      ).filter((currentUser) => currentUser.id === authUser.attributes.sub);
-      // @ts-ignore
-      setUserImageUri(fetchedUser[0].imageUri || null);
-    };
-    fetchUsers();
-  }, []);
+const HomeTitle = () => {
+  const user = useRecoilValue(authenticatedUserAtom);
   const navigation = useNavigation();
   const navigate = () => {
     // @ts-ignore
@@ -52,7 +40,7 @@ const HomeTitle = (props: any) => {
       <TouchableOpacity onPress={navigateToProfileScreen}>
         <Image
           source={{
-            uri: imageUri,
+            uri: user?.imageUri,
           }}
           style={{ width: 30, height: 30, borderRadius: 50 }}
         />

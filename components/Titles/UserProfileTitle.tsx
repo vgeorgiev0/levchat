@@ -1,8 +1,5 @@
-import { Feather } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { Auth, DataStore } from 'aws-amplify';
-import { useEffect, useState } from 'react';
 import {
   View,
   Image,
@@ -10,12 +7,13 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from 'react-native';
-import { BLUE, WHITE } from '../../constants/Colors';
-import { User } from '../../src/models';
+import { useRecoilValue } from 'recoil';
+import { WHITE } from '../../constants/Colors';
 
-const UsersTitle = ({ id }: any) => {
-  const [userName, setUserName] = useState('');
-  const [userImageUri, setUserImageUri] = useState('');
+import { authenticatedUserAtom } from '../../state/user';
+
+const UsersTitle = () => {
+  const user = useRecoilValue(authenticatedUserAtom);
 
   const navigation = useNavigation();
   const navigate = () => {
@@ -25,21 +23,12 @@ const UsersTitle = ({ id }: any) => {
 
   const { width } = useWindowDimensions();
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const authUser = await Auth.currentAuthenticatedUser();
-      const fetchedUser = await (
-        await DataStore.query(User)
-      ).filter((currentUser) => currentUser.id === authUser.attributes.sub);
-      setUserName(fetchedUser[0].name);
-      // @ts-ignore
-      setUserImageUri(fetchedUser[0].imageUri || null);
-    };
-    fetchUsers();
-  }, []);
+  if (!user) {
+    return;
+  }
 
   const title =
-    userName.length > 20 ? userName.substring(0, 20) + '...' : userName;
+    user?.name.length > 20 ? user.name.substring(0, 20) + '...' : user.name;
 
   return (
     <View
@@ -54,7 +43,7 @@ const UsersTitle = ({ id }: any) => {
     >
       <Image
         source={{
-          uri: userImageUri,
+          uri: user?.imageUri,
         }}
         style={{ marginLeft: -30, width: 30, height: 30, borderRadius: 50 }}
       />
@@ -65,6 +54,7 @@ const UsersTitle = ({ id }: any) => {
           marginLeft: 40,
           color: WHITE,
           fontSize: 16,
+          textTransform: 'capitalize',
         }}
       >
         {title}
